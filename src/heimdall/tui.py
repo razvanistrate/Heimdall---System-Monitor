@@ -15,6 +15,7 @@ from heimdall.cpu import get_cpu
 from heimdall.memory import get_memory 
 from heimdall.process import get_processes 
 from heimdall.network import get_network
+from heimdall.disk import get_disks
 
 
 ##-HeimdallAPP & Panel Styles-## 
@@ -63,7 +64,7 @@ class HeimdallApp(App):
             height: auto;
             width: 1fr;
                 
-             }        
+             } 
 """
 
     ##-Data's of HeimdallAPP-##
@@ -75,7 +76,7 @@ class HeimdallApp(App):
     memory_text: str = reactive("")
     cpu_text: str = reactive("")
     processes_text: str = reactive("")
-     
+    disk_text: str = reactive("") 
 
     def compose(self) -> ComposeResult:
         yield Header()
@@ -83,7 +84,8 @@ class HeimdallApp(App):
         yield Horizontal(
             Panel("", id="cpu"), 
             Panel("", id="memory"),
-            Panel("", id="network")
+            Panel("", id="network"),
+            Panel("", id="disk")
         )
 
         yield ScrollableContainer(
@@ -148,6 +150,18 @@ class HeimdallApp(App):
                 f"Speed: {network['speed']:.2f} Mbps"
             )
 
+        disks = get_disks()
+
+
+        disk_lines = []
+        for d in disks:
+            disk_lines.append(
+                f'{d["mountpoint"]}\n'
+                f'  {d["used_gb"]:.1f} / {d["total_gb"]:.1f} GB\n'
+                f'  {d["percent"]:.1f}%'
+            )
+        disk_text = '\n'.join(disk_lines)
+
         ##-Panel description-##
 
         cpu_panel = self.query_one("#cpu", Panel)
@@ -155,14 +169,15 @@ class HeimdallApp(App):
         processes_panel = self.query_one('#processes', Static)
         processes_scroll = self.query_one('#processes_scroll', ScrollableContainer)
         network_panel = self.query_one('#network', Panel)
+        disk_panel = self.query_one('#disk', Panel)
 
         cpu_panel.border_title = "[bold cyan] CPU [/bold cyan]"
         memory_panel.border_title = "[bold cyan] Memory [/bold cyan]"
         processes_scroll.border_title = "[bold cyan] Processes [/bold cyan]"
         network_panel.border_title = "[bold cyan] Network [/bold cyan]"
-
+        disk_panel.border_title = "[bold cyan] Disk [/bold cyan]"
+        
         ##-Update Data Section-##
-
         cpu_panel.update(
             f"Name: {cpu['name']}\n"
             f"Cores: {cpu['cores']}\n"
@@ -179,7 +194,7 @@ class HeimdallApp(App):
 
         network_panel.update(network_text)
 
-
+        disk_panel.update(disk_text)
         
 
 

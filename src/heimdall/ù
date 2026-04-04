@@ -4,7 +4,7 @@ import platform
 def get_disks():
     disks = []
 
-    for partition in psutil.disk_partitions(all=False):
+    for partition in psutil.partitions(all=False):
         if platform.system() != "Windows":
             skip_types = {"tmpfs", "devtmpfs", "squashfs", "overlay", "devfs"}
 
@@ -28,7 +28,7 @@ def get_disks():
 
         disks.append(disk)
         
-    return disks
+     return disks
 
 
 
