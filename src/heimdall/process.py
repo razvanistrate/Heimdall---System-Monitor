@@ -7,8 +7,6 @@ def get_processes():
 
     if platform.system() == "Linux":
 
-        
-
         for pid in os.listdir("/proc"):
             if pid.isdigit():
                 try:
@@ -20,6 +18,11 @@ def get_processes():
         return processes
 
     elif platform.system() == "Windows":
+        for p in psutil.process_iter(['pid', 'name']):
+            processes.append((p.info['pid'], p.info['name']))
+        return processes
+    
+    elif platform.system() == "Darwin":
         for p in psutil.process_iter(['pid', 'name']):
             processes.append((p.info['pid'], p.info['name']))
         return processes

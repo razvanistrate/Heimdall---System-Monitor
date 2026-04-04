@@ -46,3 +46,13 @@ def get_cpu():
                 "cores": cpu_cores,
                 "threads": threads
                 }
+    
+    elif system == "Darwin":
+        cpu_name = subprocess.check_output(["sysctl", "-n", "machdep.cpu.brand_string"]).strip().decode()
+        cpu_cores = psutil.cpu_count(logical=False)
+        threads = psutil.cpu_count(logical=True) 
+        return {
+                "name": cpu_name,
+                "cores": cpu_cores,
+                "threads": threads
+                }

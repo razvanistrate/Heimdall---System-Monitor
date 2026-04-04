@@ -53,14 +53,15 @@ class HeimdallApp(App):
         }
         
         #processes_scroll {
-            height: 1fr;
+            height: 15;
             width: 1fr;
+            border: round white;
+            padding: 1;
+            margin: 1;
              }
         #processes {
-            height: 50;
-            width: auto;
-            content-align: left middle;
-            text-align: left;
+            height: auto;
+            width: 1fr;
                 
              }        
 """
@@ -86,7 +87,7 @@ class HeimdallApp(App):
         )
 
         yield ScrollableContainer(
-            Panel("", id="processes"),
+            Static("", id="processes"),
             id="processes_scroll"
         )
 
@@ -113,7 +114,8 @@ class HeimdallApp(App):
     def refresh_data(self) -> None:
         mem = get_memory()
         cpu = get_cpu()
-        processes = sorted(get_processes(), key=lambda p: p[0], reverse=True)[:50]
+        raw_processes = get_processes() or []
+        processes = sorted([p for p in raw_processes if p is not None and len(p) > 0], key=lambda p: p[0], reverse=True)[:50]
 
         ##-Network Data-##
 
@@ -150,12 +152,13 @@ class HeimdallApp(App):
 
         cpu_panel = self.query_one("#cpu", Panel)
         memory_panel = self.query_one("#memory", Panel)
-        processes_panel = self.query_one('#processes', Panel)
+        processes_panel = self.query_one('#processes', Static)
+        processes_scroll = self.query_one('#processes_scroll', ScrollableContainer)
         network_panel = self.query_one('#network', Panel)
 
         cpu_panel.border_title = "[bold cyan] CPU [/bold cyan]"
         memory_panel.border_title = "[bold cyan] Memory [/bold cyan]"
-        processes_panel.border_title = "[bold cyan] Processes [/bold cyan]"
+        processes_scroll.border_title = "[bold cyan] Processes [/bold cyan]"
         network_panel.border_title = "[bold cyan] Network [/bold cyan]"
 
         ##-Update Data Section-##
