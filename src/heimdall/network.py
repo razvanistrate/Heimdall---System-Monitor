@@ -31,7 +31,7 @@ def get_network():
         if info is None or not info.isup:
             continue
 
-        if system != "Darwin" and info.speed == 0:
+        if system != ('Darwin', 'Linux') and info.speed == 0:
             continue
 
         total_trafic = data.bytes_sent + data.bytes_recv
