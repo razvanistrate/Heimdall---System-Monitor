@@ -1,13 +1,12 @@
 import asyncio
 from psutil._common import bytes2human
-
+from textual.binding import Binding
 from textual import work
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal
 from textual.containers import ScrollableContainer 
 from textual.reactive import reactive
 from textual.widgets import Static
-from textual.widgets import Button, Label
 from textual.widgets import Header, Footer
 
 from heimdall.cpu import get_cpu 
@@ -19,39 +18,52 @@ from heimdall.disk import get_disks
 
 ##-HeimdallAPP & Panel Styles-## 
 
-class Panel(Static):
-    DEFAULT_CSS = """
-            Screen {
-                layout: vertical
-            }
-            Horizontal {
-                height: 1fr;
-                align: center middle;
-            }
-            Vertical {
-                height: auto;
-                align: center middle;
-                width: 50;
-            }
-            Panel {
-                border: round white;
-                padding: 1;
-                margin: 1;
-                content-align: center middle;
-                text-align: left;
-                width: 25;
-
-            }
-        
-        """
+#class Panel(Static):
+#    DEFAULT_CSS = """
+#            Screen {
+#                layout: vertical
+#           }
+#            Horizontal {
+#                height: 1fr;
+#                align: center middle;
+#            }
+#            Vertical {
+#                height: auto;
+#                width: 50;
+#                align: center middle;
+#            }
+#            Panel {
+#                border: round white;
+#                padding: 1;
+#                margin: 1;
+#                content-align: center middle;
+#                width: 25;
+#                text-align: left;
+#
+#            }
+#        
+#        """
 
 
 class HeimdallApp(App):
+    BINDINGS = [Binding(key="q", action="quit", description="Quit")]
+
     DEFAULT_CSS = """
         Screen {
             layout: vertical;
         }
+        Horizontal {
+            height: 12;
+            width: 100%;
+            }
         
+        #cpu, #network, #memory, #disk {
+            width: 1fr;
+            height: 100%;
+            border: round white;
+            padding: 1 2;
+            }
+
         #processes_scroll {
             height: 15;
             width: 1fr;
@@ -63,12 +75,19 @@ class HeimdallApp(App):
             height: auto;
             width: 1fr;
                 
-             } 
+             }
+
+            ScrollableContainer {
+                height: 1fr;
+                width: 100%;
+                border: round white;
+                padding: 1;
+                margin: 1;
+            } 
 """
 
     ##-Data's of HeimdallAPP-##
 
-    theme= "nord"
     TITLE = "HEIMDALL"
     SUB_TITLE = "System Monitor"
 
@@ -81,10 +100,10 @@ class HeimdallApp(App):
         yield Header()
 
         yield Horizontal(
-            Panel("", id="cpu"), 
-            Panel("", id="memory"),
-            Panel("", id="network"),
-            Panel("", id="disk")
+            Static("", id="cpu"), 
+            Static("", id="memory"),
+            Static("", id="network"),
+            Static("", id="disk")
         )
 
         yield ScrollableContainer(
@@ -92,18 +111,9 @@ class HeimdallApp(App):
             id="processes_scroll"
         )
 
-        yield Horizontal(
-            Button("Quit", id="quit")
-        )
-
         yield Footer(
             id="footer"
         )
-
-
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-            if event.button.id == "quit":
-                self.exit()  
 
     async def on_mount(self) -> None:
         self.prev_network = None
@@ -163,12 +173,12 @@ class HeimdallApp(App):
 
         ##-Panel description-##
 
-        cpu_panel = self.query_one("#cpu", Panel)
-        memory_panel = self.query_one("#memory", Panel)
+        cpu_panel = self.query_one("#cpu", Static)
+        memory_panel = self.query_one("#memory", Static)
         processes_panel = self.query_one('#processes', Static)
         processes_scroll = self.query_one('#processes_scroll', ScrollableContainer)
-        network_panel = self.query_one('#network', Panel)
-        disk_panel = self.query_one('#disk', Panel)
+        network_panel = self.query_one('#network', Static)
+        disk_panel = self.query_one('#disk', Static)
 
         cpu_panel.border_title = "[bold cyan] CPU [/bold cyan]"
         memory_panel.border_title = "[bold cyan] Memory [/bold cyan]"

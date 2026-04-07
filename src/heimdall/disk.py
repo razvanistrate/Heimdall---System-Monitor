@@ -10,6 +10,10 @@ def get_disks():
 
             if partition.fstype in skip_types:
                 continue
+        
+        if platform.system() == "Darwin":
+            if partition.mountpoint != "/":
+                continue
 
         try:
             usage = psutil.disk_usage(partition.mountpoint)
