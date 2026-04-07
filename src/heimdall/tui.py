@@ -4,7 +4,6 @@ from psutil._common import bytes2human
 from textual import work
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal
-#from textual.containers import Vertical
 from textual.containers import ScrollableContainer 
 from textual.reactive import reactive
 from textual.widgets import Static
