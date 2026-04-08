@@ -63,7 +63,7 @@ uv run heimdall
 
 ## Project Structure
 
-'''
+```
 heimdall/
 ├── heimdall/
 │   ├── __init__.py
@@ -74,7 +74,7 @@ heimdall/
 │   └── processes.py    # Process list module
 ├── pyproject.toml
 └── README.md
-'''
+```
 
 ## Development
 
