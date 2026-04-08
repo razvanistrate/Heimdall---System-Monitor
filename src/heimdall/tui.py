@@ -47,7 +47,6 @@ from heimdall.disk import get_disks
 
 class HeimdallApp(App):
     BINDINGS = [Binding(key="q", action="quit", description="Quit")]
-
     DEFAULT_CSS = """
         Screen {
             layout: vertical;
@@ -55,35 +54,42 @@ class HeimdallApp(App):
         Horizontal {
             height: 12;
             width: 100%;
-            }
+        }
         
         #cpu, #network, #memory, #disk {
             width: 1fr;
             height: 100%;
             border: round white;
             padding: 1 2;
-            }
+        }
 
         #processes_scroll {
-            height: 15;
-            width: 1fr;
+            height: 1fr;
+            width: 100%;
             border: round white;
             padding: 1;
             margin: 1;
-             }
+        }
         #processes {
             height: auto;
-            width: 1fr;
-                
-             }
+            width: 1fr;        
+        }
 
-            ScrollableContainer {
-                height: 1fr;
-                width: 100%;
-                border: round white;
-                padding: 1;
-                margin: 1;
-            } 
+        ScrollableContainer {
+            height: 1fr;
+            width: 100%;
+            border: round white;
+            padding: 1;
+            margin: 1;
+        }
+
+        Footer {
+            height: 3;
+            width: 100%;
+            border: round white;
+            padding: 1;
+            content-align: center middle;
+        } 
 """
 
     ##-Data's of HeimdallAPP-##
@@ -165,9 +171,9 @@ class HeimdallApp(App):
         disk_lines = []
         for d in disks:
             disk_lines.append(
-                f'{d["mountpoint"]}\n'
-                f'  {d["used_gb"]:.1f} / {d["total_gb"]:.1f} GB\n'
-                f'  {d["percent"]:.1f}%'
+                f"Mountpoint - {d["mountpoint"]}\n"
+                f"Used - {d["used_gb"]:.1f} / {d["total_gb"]:.1f} GB\n"
+                f"Percent - {d["percent"]:.1f}%"
             )
         disk_text = '\n'.join(disk_lines)
 
