@@ -45,7 +45,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 ## Installation
 
 # Clone the repository
-git clone https://github.com/yourusername/heimdall.git
+git clone https://github.com/yourusername/heimdall.git && 
 cd heimdall
 
 # Create virtual environment and install dependencies
