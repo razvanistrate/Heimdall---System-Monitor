@@ -46,7 +46,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Clone the repository
 git clone https://github.com/razvanistrate/Heimdall---System-Monitor.git 
-&& cd heimdall
+&& cd Heimdall---System-Monitor
 
 # Create virtual environment and install dependencies
 uv sync
