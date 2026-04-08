@@ -44,7 +44,6 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ## Installation
 
-bash:
 # Clone the repository
 git clone https://github.com/yourusername/heimdall.git
 cd heimdall
@@ -54,9 +53,6 @@ uv sync
 
 # Run Heimdall
 uv run heimdall
-
-
----
 
 ## Usage
 
