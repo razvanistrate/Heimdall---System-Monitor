@@ -46,7 +46,10 @@ from heimdall.disk import get_disks
 
 
 class HeimdallApp(App):
-    BINDINGS = [Binding(key="q", action="quit", description="Quit")]
+    BINDINGS = [Binding(
+        key="q", action="quit", description="Quit",
+        key="?", action="help", description="Show help")]
+    
     DEFAULT_CSS = """
         Screen {
             layout: vertical;
@@ -154,6 +157,8 @@ class HeimdallApp(App):
 
         ##-Finish Network Data-##
 
+        ##-Process Data -##
+
         process_text = "\n".join(f"{pid:>5} {name}" for pid, name in processes)
         if network is None:
             network_text = "No network data available"
@@ -165,8 +170,11 @@ class HeimdallApp(App):
                 f"Speed: {network['speed']:.2f} Mbps"
             )
 
-        disks = get_disks()
+        ##-Process Data Finish-##
 
+        ##-Disk Data-##
+#-------------------------------------------#
+        disks = get_disks()
 
         disk_lines = []
         for d in disks:
@@ -177,6 +185,8 @@ class HeimdallApp(App):
             )
         disk_text = '\n'.join(disk_lines)
 
+        ##-Finish Disk Data-##
+#-----------------------------------------#
         ##-Panel description-##
 
         cpu_panel = self.query_one("#cpu", Static)
