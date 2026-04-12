@@ -44,19 +44,15 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 
 ## Installation
 
-bash:
 # Clone the repository
-git clone https://github.com/yourusername/heimdall.git
-cd heimdall
+git clone https://github.com/razvanistrate/Heimdall---System-Monitor.git 
+&& cd Heimdall---System-Monitor
 
 # Create virtual environment and install dependencies
 uv sync
 
 # Run Heimdall
 uv run heimdall
-
-
----
 
 ## Usage
 
@@ -67,7 +63,7 @@ uv run heimdall
 
 ## Project Structure
 
-
+```
 heimdall/
 ├── heimdall/
 │   ├── __init__.py
@@ -78,7 +74,7 @@ heimdall/
 │   └── processes.py    # Process list module
 ├── pyproject.toml
 └── README.md
-
+```
 
 ## Development
 
