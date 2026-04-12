@@ -39,6 +39,9 @@ from heimdall.disk import get_disks
 #                content-align: center middle;
 #                width: 25;
 #                text-align: left;
+
+
+            
 #
 #            }
 #        
@@ -47,8 +50,8 @@ from heimdall.disk import get_disks
 
 class HeimdallApp(App):
     BINDINGS = [Binding(
-        key="q", action="quit", description="Quit",
-        key="?", action="help", description="Show help")]
+        key="q", action="quit", description="Quit"),
+        Binding(key="h", action="help", description="Show help")]
     
     DEFAULT_CSS = """
         Screen {
@@ -87,11 +90,15 @@ class HeimdallApp(App):
         }
 
         Footer {
-            height: 3;
-            width: 100%;
-            border: round white;
+            height: auto;
+            width: 1fr;
             padding: 1;
-            content-align: center middle;
+        } 
+
+        #footer {
+            height: auto;
+            width: 1fr;
+            padding: 1;
         } 
 """
 
@@ -121,6 +128,7 @@ class HeimdallApp(App):
         )
 
         yield Footer(
+            Static("", id="footer"),
             id="footer"
         )
 
