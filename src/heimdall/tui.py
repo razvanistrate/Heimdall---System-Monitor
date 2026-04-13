@@ -52,60 +52,86 @@ class HeimdallApp(App):
     BINDINGS = [Binding(
         key="q", action="quit", description="Quit"),
         Binding(key="h", action="help", description="Show help")]
+    ##- Styles for the App -##
     
     DEFAULT_CSS = """
+
+        /* - Styles for the Panels - */
+        /* - Defined CSS variables for consistent styling - */
+        
+        $border: round yellow;
+        $background: #000000;
+
+        #header {
+            height: auto;
+            padding: 1;
+            background: $background;
+        }  
         Screen {
-            layout: vertical;
+            layout: horizontal;
+            background: $background;
         }
         Horizontal {
-            height: 12;
+            height: auto;
             width: 100%;
+            background: $background;
+
         }
         
         #cpu, #network, #memory, #disk {
             width: 1fr;
             height: 100%;
-            border: round white;
+            border: $border;
             padding: 1 2;
+            content-align: center middle;
         }
 
         #processes_scroll {
             height: 1fr;
             width: 100%;
-            border: round white;
+            border: $border;
             padding: 1;
             margin: 1;
         }
         #processes {
             height: auto;
-            width: 1fr;        
+            width: 100%;
+            text-align: justify;        
         }
 
         ScrollableContainer {
             height: 1fr;
             width: 100%;
-            border: round white;
+            border: $border;
+            background: $background;
             padding: 1;
             margin: 1;
         }
 
         Footer {
-            height: auto;
-            width: 1fr;
+            height: 1fr;
+            width: auto;
             padding: 1;
+            margin: 1;
+            text-align: center;
+            border: $border;
+            background: $background;
         } 
 
         #footer {
-            height: auto;
             width: 1fr;
-            padding: 1;
+            height: auto;
+            padding: 1 2;
+            border: $border;
+            background: $background;
         } 
 """
 
-    ##-Data's of HeimdallAPP-##
+    ##- Data's of HeimdallAPP -##
 
     TITLE = "HEIMDALL"
     SUB_TITLE = "System Monitor"
+
 
     memory_text: str = reactive("")
     cpu_text: str = reactive("")
@@ -113,7 +139,10 @@ class HeimdallApp(App):
     disk_text: str = reactive("") 
 
     def compose(self) -> ComposeResult:
-        yield Header()
+        yield Header(
+            Static("", id="header"),
+            id="header"
+        )
 
         yield Horizontal(
             Static("", id="cpu"), 
@@ -145,7 +174,7 @@ class HeimdallApp(App):
         raw_processes = get_processes() or []
         processes = sorted([p for p in raw_processes if p is not None and len(p) > 0], key=lambda p: p[0], reverse=True)[:50]
 
-        ##-Network Data-##
+        ##- Network Data- ##
 
         network = get_network()
 
@@ -163,9 +192,9 @@ class HeimdallApp(App):
 
         self.prev_network = network
 
-        ##-Finish Network Data-##
+        ##- Finish Network Data -##
 
-        ##-Process Data -##
+        ##- Process Data -##
 
         process_text = "\n".join(f"{pid:>5} {name}" for pid, name in processes)
         if network is None:
@@ -178,10 +207,10 @@ class HeimdallApp(App):
                 f"Speed: {network['speed']:.2f} Mbps"
             )
 
-        ##-Process Data Finish-##
+        ##- Process Data Finish -##
 
-        ##-Disk Data-##
-#-------------------------------------------#
+        ##- Disk Data -##
+
         disks = get_disks()
 
         disk_lines = []
@@ -193,9 +222,9 @@ class HeimdallApp(App):
             )
         disk_text = '\n'.join(disk_lines)
 
-        ##-Finish Disk Data-##
-#-----------------------------------------#
-        ##-Panel description-##
+        ##- Finish Disk Data -##
+
+        ##- Panel description -##
 
         cpu_panel = self.query_one("#cpu", Static)
         memory_panel = self.query_one("#memory", Static)
@@ -210,7 +239,8 @@ class HeimdallApp(App):
         network_panel.border_title = "[bold cyan] Network [/bold cyan]"
         disk_panel.border_title = "[bold cyan] Disk [/bold cyan]"
         
-        ##-Update Data Section-##
+        ##- Update Data Section -##
+
         cpu_panel.update(
             f"Name: {cpu['name']}\n"
             f"Cores: {cpu['cores']}\n"
