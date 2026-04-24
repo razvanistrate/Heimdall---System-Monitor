@@ -16,49 +16,20 @@ from heimdall.network import get_network
 from heimdall.disk import get_disks
 
 
-##-HeimdallAPP & Panel Styles-## 
-
-#class Panel(Static):
-#    DEFAULT_CSS = """
-#            Screen {
-#                layout: vertical
-#           }
-#            Horizontal {
-#                height: 1fr;
-#                align: center middle;
-#            }
-#            Vertical {
-#                height: auto;
-#                width: 50;
-#                align: center middle;
-#            }
-#            Panel {
-#                border: round white;
-#                padding: 1;
-#                margin: 1;
-#                content-align: center middle;
-#                width: 25;
-#                text-align: left;
-
-
-            
-#
-#            }
-#        
-#        """
-
-
 class HeimdallApp(App):
-    BINDINGS = [Binding(
-        key="q", action="quit", description="Quit"),
-        Binding(key="h", action="help", description="Show help")]
+    HELP = reactive(True)
+
+    BINDINGS = [
+        ("q", "quit", "Quit"),
+        ("h", "help", "Show help")
+    ]
     ##- Styles for the App -##
     
     DEFAULT_CSS = """
 
-        /* - Styles for the Panels - */
-        /* - Defined CSS variables for consistent styling - */
-        
+    /* - Styles for the Panels - */
+    /* - Defined CSS variables for consistent styling - */
+
         $border: round yellow;
         $background: #000000;
 
